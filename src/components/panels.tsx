@@ -137,7 +137,7 @@ function DocRowLine({
   subtitle: string
   tone: string
   tag?: string
-  action?: 'Abrir' | 'Avatars'
+  action?: 'Abrir' | 'Plus' | 'Avatars'
   avatars?: string[]
   thumbs?: boolean
 }) {
