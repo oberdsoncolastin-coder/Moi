@@ -1,153 +1,177 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import {
-  Bell,
-  CheckSquare,
-  Clock,
-  Compass,
-  Crown,
-  Folder,
-  Grid3x3,
-  Languages,
-  LayoutTemplate,
-  ListTree,
-  MessageCircle,
-  Search,
-  Settings,
-  Users
-} from "lucide-react";
-import {
-  communityUsers,
-  earnings,
-  headerUser,
-  offers,
-  railProfile,
-  recommendations,
-  searchResults,
-  sidebarItems
-} from "../data/mock";
-import { useApp } from "../store";
-import { AmberButton, Avatar, HexMark, Logo, Thumb } from "./ui";
-const iconMap = {
-  compass: Compass,
-  grid: Grid3x3,
-  check: CheckSquare,
-  languages: Languages,
-  clock: Clock,
-  list: ListTree,
-  users: Users,
-  bell: Bell,
-  message: MessageCircle,
-  template: LayoutTemplate,
-  settings: Settings,
-  folder: Folder,
-  crown: Crown
-};
-const sidebarPaths = [
-  "/",
-  "/categorias",
-  "/tareas",
-  "/traducciones",
-  "/recordatorios",
-  "/subtareas",
-  "/colaboradores",
-  "/notificaciones",
-  "/mensajes",
-  "/plantillas",
-  "/ajustes",
-  "/mis-documentos",
-  "/premium"
-];
-function Header() {
-  const navigate = useNavigate();
-  const { notify } = useApp();
-  const [query, setQuery] = useState("");
-  return <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-line bg-white px-5"><Logo size="sm" /><span className="hidden text-[10px] font-bold uppercase tracking-[0.2em] text-muted lg:inline">
-        Layers
-      </span><div className="mx-auto flex w-full max-w-[360px] items-center gap-2 rounded-full border border-line bg-[#F7F7F8] px-3 py-1.5"><Search size={14} className="text-muted" /><input
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    placeholder="Buscar documentos…"
-    className="w-full bg-transparent text-[12px] text-ink placeholder:text-muted focus:outline-none"
-  /></div><div className="ml-auto flex items-center gap-4"><button onClick={() => navigate("/notificaciones")} className="relative text-ink"><Bell size={17} /><span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-danger" /></button><button onClick={() => navigate("/mensajes")} className="text-ink"><MessageCircle size={17} /></button><div className="flex items-center gap-2 border-l border-line pl-4"><Avatar initials={headerUser.initials} tone={headerUser.tone} size={28} /><span className="text-[12px] font-semibold text-ink">{headerUser.name}</span></div><button
-    onClick={() => notify("Suscripci\xF3n premium")}
-    className="rounded-full bg-amber px-3 py-1.5 text-[11px] font-bold text-ink"
-  >
-          PRO
-        </button></div></header>;
+import React from 'react';
+import { Icon, Logo, Avatar, Bouton } from './ui.jsx';
+import { navigation, compte, profil, railDroit } from '../data/mock.jsx';
+
+/**
+ * Barre latérale de navigation (bureau).
+ * @param {{ vue: string, onNaviguer: (vue: string) => void }} props
+ */
+export function BarreLaterale({ vue, onNaviguer }) {
+  return (
+    <aside className="hidden w-[248px] shrink-0 flex-col border-r border-white/5 bg-[#0e0e11] px-4 py-5 lg:flex">
+      <Logo />
+
+      <nav className="mt-7 flex flex-1 flex-col gap-0.5">
+        {navigation.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => onNaviguer(item.id)}
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+              vue === item.id ? 'bg-white/[0.07] text-white' : 'text-white/50 hover:bg-white/5 hover:text-white/90'
+            }`}
+          >
+            <Icon name={item.icon} className="h-[18px] w-[18px]" />
+            <span className="flex-1 text-left">{item.label}</span>
+            {item.badge ? (
+              <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-semibold text-black">{item.badge}</span>
+            ) : null}
+          </button>
+        ))}
+      </nav>
+
+      <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/30">Mon espace</p>
+      <nav className="flex flex-col gap-0.5">
+        {compte.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => onNaviguer(item.id)}
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+              vue === item.id ? 'bg-white/[0.07] text-white' : 'text-white/50 hover:bg-white/5 hover:text-white/90'
+            }`}
+          >
+            <Icon name={item.icon} className="h-[18px] w-[18px]" />
+            <span className="flex-1 text-left">{item.label}</span>
+          </button>
+        ))}
+      </nav>
+
+      <button
+        type="button"
+        onClick={() => onNaviguer('profil')}
+        className="mt-5 flex items-center gap-3 rounded-xl border border-white/10 px-3 py-2.5 text-left transition hover:border-white/25"
+      >
+        <Avatar nom={profil.nom} taille="h-8 w-8" />
+        <span className="flex-1 text-sm text-white/80">{profil.nom}</span>
+        <Icon name="chevronDown" className="h-4 w-4 text-white/40" />
+      </button>
+    </aside>
+  );
 }
-function Sidebar() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [active, setActive] = useState(() => Math.max(0, sidebarPaths.indexOf(location.pathname)));
-  const { following, toggleFollow, notify } = useApp();
-  return <aside className="sticky top-14 flex h-[calc(100vh-3.5rem)] w-[236px] shrink-0 flex-col border-r border-line bg-white px-3 py-4"><div className="flex items-center gap-2 px-2"><HexMark size={26} tone="light" /><div className="leading-tight"><p className="text-[13px] font-black tracking-[0.16em] text-ink">OBERLAST</p><p className="text-[9.5px] font-semibold uppercase tracking-[0.18em] text-muted">
-            Workspace
-          </p></div></div><nav className="mt-4 flex-1 overflow-y-auto pr-1">{sidebarItems.map((item, index) => {
-    const Icon = iconMap[item.icon];
-    const isActive = index === active;
-    return <button
-      key={item.label}
-      onClick={() => {
-        setActive(index);
-        navigate(sidebarPaths[index]);
-      }}
-      className={`relative flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-[7px] text-left text-[12px] font-medium transition-colors ${isActive ? "bg-[#F5F5F6] text-ink" : "text-[#6B7280] hover:bg-[#FAFAFB]"}`}
-    >{isActive && <span className="absolute -left-3 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-r bg-ink" />}<Icon size={15} strokeWidth={isActive ? 2.2 : 1.7} /><span className="flex-1 truncate">{item.label}</span>{item.badge && <span className="grid h-[15px] min-w-[15px] place-items-center rounded-full bg-danger px-1 text-[9px] font-bold text-white">{item.badge}</span>}</button>;
-  })}<div className="my-3 border-t border-line" /><button
-    onClick={() => navigate("/perfil")}
-    className="flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-[7px] text-left text-[12px] font-medium text-[#6B7280] hover:bg-[#FAFAFB]"
-  ><Users size={15} strokeWidth={1.7} />
-          Perfil
-        </button><button
-    onClick={() => navigate("/ajustes")}
-    className="flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-[7px] text-left text-[12px] font-medium text-[#6B7280] hover:bg-[#FAFAFB]"
-  ><Settings size={15} strokeWidth={1.7} />
-          Ajustes
-        </button></nav><div className="mt-3 rounded-[12px] bg-night-950 p-3.5"><p className="text-[13px] font-bold text-amber">Únete a OBERLAST</p><p className="mt-1 text-[11px] leading-relaxed text-neutral-400">
-          Obtén 15 días gratis y desbloquea todo el ecosistema.
-        </p><button
-    onClick={() => notify("Prueba gratis activada")}
-    className="mt-3 w-full rounded-full bg-amber py-2 text-[11.5px] font-extrabold text-ink"
-  >
-          Empezar ahora
-        </button></div></aside>;
+
+/** Barre supérieure : recherche, notifications, badge, profil. */
+export function BarreSuperieure() {
+  return (
+    <header className="flex items-center gap-4 border-b border-white/5 bg-[#0b0b0d]/80 px-4 py-3.5 backdrop-blur lg:px-8">
+      <div className="lg:hidden">
+        <Logo compact />
+      </div>
+
+      <div className="relative min-w-0 flex-1 md:max-w-xl">
+        <Icon name="search" className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+        <input
+          type="search"
+          aria-label="Rechercher une application"
+          placeholder="Rechercher une application, ou développez une catégorie..."
+          className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-white/30 outline-none transition focus:border-gold/50 focus:bg-white/[0.06]"
+        />
+      </div>
+
+      <div className="relative hidden sm:block">
+        <Icon name="bell" className="h-5 w-5 text-white/65" />
+        <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
+          3
+        </span>
+      </div>
+
+      <button type="button" className="hidden text-white/65 transition hover:text-white sm:block" aria-label="Carte d'identité">
+        <Icon name="idCard" className="h-5 w-5" />
+      </button>
+
+      <Avatar nom={profil.nom} />
+    </header>
+  );
 }
-function RailCard({
-  title,
-  action,
-  children
-}) {
-  return <section className="border-b border-line px-4 py-4"><div className="flex items-center justify-between"><h3 className="text-[13px] font-bold text-ink">{title}</h3>{action && <button className="text-[11px] font-semibold text-muted hover:text-ink">{action}</button>}</div>{children}</section>;
+
+/** Colonne de droite : partage, profil développé, nouveautés, applications populaires. */
+export function RailDroit() {
+  return (
+    <aside className="hidden w-[300px] shrink-0 flex-col gap-4 border-l border-white/5 bg-[#0e0e11] p-5 xl:flex">
+      <div className="rounded-2xl border border-white/8 bg-gradient-to-b from-[#1a1a20] to-[#101014] p-4">
+        <h3 className="font-display text-sm font-semibold text-white">{railDroit.partage.titre}</h3>
+        <p className="mt-2 text-xs leading-relaxed text-white/50">{railDroit.partage.texte}</p>
+        <Bouton className="mt-4 w-full" variante="primaire">
+          Créer une publication
+        </Bouton>
+      </div>
+
+      <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+        <h3 className="font-display text-sm font-semibold text-white">{railDroit.profilDeveloppe.titre}</h3>
+        <div className="mt-3 flex items-center gap-3">
+          <Avatar nom={railDroit.profilDeveloppe.application.nom} taille="h-9 w-9" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm text-white/85">{railDroit.profilDeveloppe.application.nom}</p>
+            <p className="truncate text-xs text-white/40">{railDroit.profilDeveloppe.application.handle}</p>
+          </div>
+          <Bouton variante="fantome" className="px-3 py-1.5 text-xs">
+            S'abonner
+          </Bouton>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+        <p className="text-xs leading-relaxed text-white/50">{railDroit.nouveautes.texte}</p>
+      </div>
+
+      <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-sm font-semibold text-white">Applications populaires</h3>
+          <button type="button" className="inline-flex items-center gap-1 text-xs text-white/45 hover:text-white">
+            Voir toutes
+            <Icon name="arrowRight" className="h-3.5 w-3.5" />
+          </button>
+        </div>
+        <ul className="mt-3 space-y-2.5">
+          {['Canva', 'OpenAI', 'Notion', 'CapCut'].map((nom) => (
+            <li key={nom} className="flex items-center gap-3">
+              <Avatar nom={nom} taille="h-8 w-8" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm text-white/80">{nom}</p>
+                <p className="truncate text-xs text-white/35">@{nom}</p>
+              </div>
+              <Icon name="plus" className="h-4 w-4 text-white/35" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  );
 }
-function RightRail() {
-  const { following, toggleFollow, notify } = useApp();
-  return <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-[300px] shrink-0 overflow-y-auto border-l border-line bg-white xl:block"><RailCard title="Explorar la comunidad" action="Ver más"><ul className="mt-3 space-y-2.5">{communityUsers.map((user) => {
-    const isFollowing = following.has(user.name);
-    return <li key={user.name} className="flex items-center gap-2.5"><Avatar initials={user.initials} tone={user.tone} size={30} /><div className="min-w-0 flex-1"><p className="truncate text-[12px] font-bold text-ink">{user.name}</p><p className="truncate text-[10.5px] text-muted">{user.role}</p></div><button
-      onClick={() => toggleFollow(user.name)}
-      className={`rounded-full px-2.5 py-1 text-[10.5px] font-bold ${isFollowing ? "bg-[#E9F7EF] text-[#12B76A]" : "bg-[#12B76A] text-white"}`}
-    >{isFollowing ? "Siguiendo" : "Seguir"}</button></li>;
-  })}</ul></RailCard><RailCard title="Recomendaciones para ti"><ul className="mt-3 space-y-2.5">{recommendations.map((user) => <li key={user.name} className="flex items-center gap-2.5"><Avatar initials={user.initials} tone={user.tone} size={28} /><p className="flex-1 truncate text-[12px] font-bold text-ink">{user.name}</p><button
-    onClick={() => notify(`Siguiendo a ${user.name}`)}
-    className="rounded-full bg-amber px-2.5 py-1 text-[10.5px] font-bold text-ink"
-  >
-                Seguir
-              </button></li>)}</ul></RailCard><section className="border-b border-line px-4 py-4"><div className={`h-20 w-full overflow-hidden rounded-[12px] bg-gradient-to-br ${railProfile.cover}`} /><p className="mt-3 text-[13.5px] font-bold text-ink">{railProfile.name}</p><p className="text-[11px] text-muted">{railProfile.role}</p><p className="mt-2 text-[11.5px] leading-relaxed text-body">{railProfile.bio}</p><AmberButton className="mt-3 w-full" onClick={() => notify("Mensaje enviado")}>
-          Enviar mensaje
-        </AmberButton></section><RailCard title={earnings.title} action="Ver detalle"><div className="mt-3 flex h-20 items-end gap-1.5">{earnings.values.map((value, index) => <div key={index} className="flex flex-1 flex-col items-center gap-1"><div
-    className="w-full rounded-t-[4px] bg-gradient-to-t from-amber to-amber-soft"
-    style={{ height: `${value}%` }}
-  /><span className="text-[8.5px] font-semibold text-muted">{earnings.labels[index]}</span></div>)}</div></RailCard><RailCard title="Ofertas"><div className="mt-3 space-y-2">{offers.map((offer) => <div
-    key={offer.title}
-    className="flex items-center gap-3 rounded-[10px] border border-line p-2.5"
-  ><Thumb tone={offer.tone} className="h-8 w-8 rounded-[8px]" /><div className="flex-1"><p className="text-[11.5px] font-bold text-ink">{offer.title}</p><p className="text-[10.5px] text-muted">{offer.subtitle}</p></div></div>)}</div></RailCard><section className="bg-night-950 px-4 py-4"><p className="text-[12px] font-bold text-white">Explorar</p><div className="mt-2.5 flex items-center gap-2 rounded-[9px] bg-white/10 px-2.5 py-2"><Search size={13} className="text-neutral-400" /><input
-    placeholder="Buscar documentos…"
-    className="w-full bg-transparent text-[11.5px] text-white placeholder:text-neutral-500 focus:outline-none"
-  /></div><ul className="mt-3 space-y-2">{searchResults.map((result) => <li key={result.title} className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-amber" /><p className="flex-1 text-[11.5px] text-neutral-200">{result.title}</p><span className="text-[9.5px] text-neutral-500">{result.meta}</span></li>)}</ul><div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-3"><Avatar initials={headerUser.initials} tone={headerUser.tone} size={24} /><span className="text-[11.5px] text-neutral-300">Hola 👋</span></div></section></aside>;
+
+/** Barre de navigation inférieure (mobile). */
+export function NavigationMobile({ vue, onNaviguer }) {
+  const items = [
+    { id: 'accueil', label: 'Accueil', icon: 'home' },
+    { id: 'explorer', label: 'Explorer', icon: 'compass' },
+    { id: 'favoris', label: 'Favoris', icon: 'heart' },
+    { id: 'profil', label: 'Profil', icon: 'user' },
+  ];
+  return (
+    <nav className="flex items-center justify-around border-t border-white/5 bg-[#0e0e11] px-2 py-2.5 lg:hidden">
+      {items.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          onClick={() => onNaviguer(item.id)}
+          className={`flex flex-col items-center gap-1 rounded-lg px-3 py-1 text-[11px] transition ${
+            vue === item.id ? 'text-gold' : 'text-white/40'
+          }`}
+        >
+          <Icon name={item.icon} className="h-5 w-5" />
+          {item.label}
+        </button>
+      ))}
+    </nav>
+  );
 }
-export {
-  Header,
-  RightRail,
-  Sidebar
-};
