@@ -1,187 +1,190 @@
-const brand = {
-  name: "OBERLAST",
-  baseline: "Discover \xB7 Explore \xB7 Manage",
-  paragraph: "La plataforma social para tus empleados que interact\xFAan en un solo lugar, con herramientas para crecer."
+/**
+ * Données de la plateforme OBERLAST.
+ * Les libellés proviennent de la transcription de la planche de référence.
+ */
+
+/**
+ * @typedef {Object} Application
+ * @property {string} id
+ * @property {string} nom
+ * @property {string} categorie
+ * @property {string} handle
+ * @property {number} note
+ * @property {number} votes
+ * @property {string} [croissance]
+ * @property {string} [resume]
+ */
+
+/**
+ * @typedef {Object} Categorie
+ * @property {string} label
+ * @property {string} icon
+ * @property {number} applications
+ */
+
+/**
+ * @typedef {Object} Publication
+ * @property {string} id
+ * @property {string} auteur
+ * @property {string} handle
+ * @property {string} anciennete
+ * @property {string} texte
+ * @property {number} likes
+ * @property {number} commentaires
+ * @property {Application} application
+ */
+
+/** Navigation principale de la barre latérale. */
+export const navigation = [
+  { id: 'accueil', label: 'Accueil', icon: 'home' },
+  { id: 'explorer', label: 'Explorer', icon: 'compass' },
+  { id: 'categories', label: 'Catégories', icon: 'grid' },
+  { id: 'classements', label: 'Classements', icon: 'trophy' },
+  { id: 'tendances', label: 'Tendances', icon: 'trending' },
+  { id: 'recommandations', label: 'Recommandations', icon: 'sparkle' },
+  { id: 'favoris', label: 'Favoris', icon: 'heart' },
+  { id: 'collections', label: 'Collections', icon: 'layers' },
+  { id: 'notifications', label: 'Notifications', icon: 'bell', badge: 5 },
+  { id: 'messagers', label: 'Messagers', icon: 'message', badge: 1 },
+];
+
+/** Section « Mon espace » de la barre latérale. */
+export const compte = [
+  { id: 'profil', label: 'Profil', icon: 'user' },
+  { id: 'publications', label: 'Mes publications', icon: 'file' },
+  { id: 'parametres', label: 'Paramètres', icon: 'settings' },
+];
+
+export const profil = {
+  nom: 'AlexTech',
+  handle: '@AlexTech',
+  bio: "Passionné par les dernières technologies et les applications [#].",
+  publications: 128,
+  abonnes: '2.4k',
+  abonnements: 124,
 };
-const sidebarItems = [
-  { label: "Explorar", icon: "compass" },
-  { label: "Categor\xEDas", icon: "grid" },
-  { label: "Tareas", icon: "check" },
-  { label: "Traducciones", icon: "languages" },
-  { label: "Recordatorios", icon: "clock" },
-  { label: "Subtareas", icon: "list" },
-  { label: "Colaboradores", icon: "users" },
-  { label: "Notificaciones", icon: "bell", badge: 3 },
-  { label: "Mensajes", icon: "message", badge: 1 },
-  { label: "Plantillas", icon: "template" },
-  { label: "Ajustes", icon: "settings" },
-  { label: "Mis documentos", icon: "folder", active: true },
-  { label: "Premium", icon: "crown" }
+
+/** @type {Application[]} */
+export const tendances = [
+  { id: 'capcut', nom: 'CapCut', categorie: 'Vidéo & création', handle: '@CapCut', note: 4.7, votes: 1204, croissance: '12%' },
+  { id: 'chatgpt', nom: 'ChatGPT', categorie: 'IA & Productivité', handle: '@OpenAI', note: 4.8, votes: 2311, croissance: '9%' },
+  { id: 'notion', nom: 'Notion', categorie: 'Productivité', handle: '@Notion', note: 4.8, votes: 1876, croissance: '9%' },
+  { id: 'spotify', nom: 'Spotify', categorie: 'Musique & Audio', handle: '@Spotify', note: 4.5, votes: 980, croissance: '8%' },
+  { id: 'chatgpt-premium', nom: 'ChatGPT Premium', categorie: 'Mises à jour', handle: '@OpenAI', note: 4.5, votes: 640, croissance: '8%' },
 ];
-const headerUser = { name: "Juan Carlos", initials: "JC", tone: "from-amber-300 to-amber-500" };
-const categories = [
-  { label: "Favorites", tone: "from-amber-300 to-amber-500" },
-  { label: "Tareas", tone: "from-neutral-800 to-neutral-950" },
-  { label: "Planeaci\xF3n", tone: "from-blue-400 to-blue-600" },
-  { label: "Recordatorios", tone: "from-violet-400 to-violet-600" },
-  { label: "Proyectos", tone: "from-emerald-400 to-emerald-600" },
-  { label: "Salarios", tone: "from-rose-400 to-rose-600" },
-  { label: "Notas", tone: "from-orange-400 to-orange-600" },
-  { label: "Metas", tone: "from-teal-400 to-teal-600" },
-  { label: "Negocios", tone: "from-fuchsia-400 to-fuchsia-600" },
-  { label: "Tareas", tone: "from-slate-500 to-slate-700" }
+
+/** @type {Application[]} */
+export const recommandees = [
+  { id: 'midjourney', nom: 'Midjourney', categorie: 'IA & Image', handle: '@Midjourney', note: 4.9, votes: 1544, croissance: '9%' },
+  { id: 'canva', nom: 'Canva', categorie: 'Design & création', handle: '@Canva', note: 4.5, votes: 980, croissance: '8%' },
+  { id: 'figma', nom: 'Figma', categorie: 'Design & création', handle: '@Figma', note: 4.6, votes: 742, croissance: '6%' },
 ];
-const docTabs = ["Documentos", "Proyectos", "Notas"];
-const docRows = [
-  {
-    title: "Casa",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-amber-300 to-amber-500",
-    action: "Avatars",
-    avatars: ["from-amber-400 to-amber-600", "from-blue-400 to-blue-600"]
-  },
-  {
-    title: "Subtareas",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-neutral-800 to-neutral-950",
-    action: "Avatars",
-    avatars: ["from-violet-400 to-violet-600", "from-emerald-400 to-emerald-600", "from-rose-400 to-rose-600"]
-  },
-  {
-    title: "Center",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-orange-400 to-orange-600",
-    action: "Avatars",
-    avatars: ["from-blue-400 to-blue-600"]
-  },
-  {
-    title: "Center",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-rose-400 to-rose-600",
-    tag: "UTAH",
-    action: "Avatars",
-    avatars: ["from-orange-400 to-orange-600"]
-  },
-  {
-    title: "Classroom",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-orange-300 to-amber-500",
-    action: "Avatars",
-    avatars: ["from-emerald-400 to-emerald-600"]
-  },
-  {
-    title: "ChatGPT",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-neutral-800 to-neutral-950",
-    action: "Avatars",
-    avatars: ["from-rose-400 to-rose-600"]
-  },
-  {
-    title: "Creative Assets",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-neutral-800 to-neutral-950",
-    action: "Avatars",
-    avatars: ["from-emerald-400 to-emerald-600"]
-  }
+
+/** @type {Application[]} */
+export const populaires = [
+  { id: 'canva-pop', nom: 'Canva', categorie: 'Design & création', handle: '@Canva', note: 4.5, votes: 980 },
+  { id: 'openai-pop', nom: 'OpenAI', categorie: 'IA & Productivité', handle: '@OpenAI', note: 4.8, votes: 2311 },
+  { id: 'notion-pop', nom: 'Notion', categorie: 'Productivité', handle: '@Notion', note: 4.8, votes: 1876 },
+  { id: 'capcut-pop', nom: 'CapCut', categorie: 'Vidéo & création', handle: '@CapCut', note: 4.7, votes: 1204 },
 ];
-const docRowsSecondary = [
+
+/** @type {Categorie[]} */
+export const categoriesPopulaires = [
+  { label: 'Jeux vidéo', icon: 'gamepad', applications: 128 },
+  { label: 'Productivité', icon: 'briefcase', applications: 96 },
+  { label: 'Management', icon: 'chart', applications: 74 },
+  { label: 'Photographie', icon: 'camera', applications: 63 },
+  { label: 'Création', icon: 'palette', applications: 58 },
+  { label: 'Finances', icon: 'wallet', applications: 41 },
+  { label: 'Voyage', icon: 'map', applications: 37 },
+  { label: 'Design & Décoration', icon: 'sparkle', applications: 32 },
+];
+
+/** @type {Categorie[]} */
+export const categoriesMobile = [
+  { label: 'IA & Chatbot', icon: 'sparkle', applications: 64 },
+  { label: 'Jeux', icon: 'gamepad', applications: 128 },
+  { label: 'Musique', icon: 'music', applications: 52 },
+  { label: 'Vidéo', icon: 'video', applications: 71 },
+  { label: 'Photo', icon: 'camera', applications: 63 },
+  { label: 'Sport', icon: 'trophy', applications: 29 },
+  { label: 'Finance', icon: 'wallet', applications: 41 },
+  { label: 'Management', icon: 'chart', applications: 74 },
+  { label: 'Voyage', icon: 'map', applications: 37 },
+  { label: 'Productivité', icon: 'briefcase', applications: 96 },
+  { label: 'Création', icon: 'palette', applications: 58 },
+  { label: 'Santé & Bien-être', icon: 'heart', applications: 24 },
+  { label: 'Éducation', icon: 'book', applications: 31 },
+  { label: 'Style', icon: 'sparkle', applications: 22 },
+];
+
+/** Onglets du flux « Plus des découvertes ». */
+export const ongletsDecouverte = ['Populaires', 'Nouveautés', 'Tendances', 'Suivis'];
+
+/** @type {Publication[]} */
+export const publications = [
   {
-    title: "Cama",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-violet-500 to-blue-600",
-    action: "Abrir"
+    id: 'pub-1',
+    auteur: 'LéaDesign',
+    handle: '@LéaDesign',
+    anciennete: '3 ans',
+    texte:
+      "J'ai découvert une pépite pour la création de vidéo ! Je m'inspire d'histoires alternatives comme celle-ci. CapCut simplifie le montage, les présentations et bien plus !",
+    likes: 312,
+    commentaires: 56,
+    application: {
+      id: 'canva',
+      nom: 'Canva',
+      categorie: 'Design & création',
+      handle: '@Canva',
+      note: 4.5,
+      votes: 980,
+      resume: "Choisissez des modèles, intégrez des présentations, des vidéos. Très facile à utiliser, idéal pour les réseaux sociaux.",
+    },
   },
   {
-    title: "Apple",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-orange-400 to-red-500",
-    action: "Abrir",
-    thumbs: true
+    id: 'pub-2',
+    auteur: 'TechNova',
+    handle: '@TechNova',
+    anciennete: '9 h',
+    texte:
+      "Les meilleures applications du moment, simplement. Je les découvre, je les note, je vous les partage.",
+    likes: 298,
+    commentaires: 41,
+    application: {
+      id: 'capcut-pub',
+      nom: 'CapCut',
+      categorie: 'Vidéo & création',
+      handle: '@CapCut',
+      note: 4.7,
+      votes: 1204,
+      resume: "Éditez vos vidéos en quelques gestes, avec des effets et des modèles prêts à l'emploi.",
+    },
   },
-  {
-    title: "Interior",
-    subtitle: "Discover explore and share your knowledge on mobile",
-    tone: "from-neutral-700 to-neutral-950",
-    action: "Abrir"
-  }
 ];
-const communityUsers = [
-  { name: "Gustavo", role: "Product Designer", initials: "GU", tone: "from-amber-300 to-amber-500" },
-  { name: "Naomi", role: "Frontend Dev", initials: "NA", tone: "from-teal-400 to-teal-600" },
-  { name: "Apple", role: "Illustrator", initials: "AP", tone: "from-blue-400 to-blue-600" },
-  { name: "Meta", role: "Community Lead", initials: "ME", tone: "from-emerald-400 to-emerald-600" }
-];
-const recommendations = [
-  { name: "Gustavo", role: "Product Designer", initials: "GU", tone: "from-amber-300 to-amber-500" },
-  { name: "Apple", role: "Illustrator", initials: "AP", tone: "from-blue-400 to-blue-600" },
-  { name: "Naomi", role: "Frontend Dev", initials: "NA", tone: "from-teal-400 to-teal-600" }
-];
-const railProfile = {
-  name: "Riley Fadel",
-  role: "Desarrollador de Software",
-  cover: "from-[#6b4a8a] via-[#8a5a5a] to-amber-500",
-  bio: "Hola, soy Riley. Me especializo en crear soluciones de software para empresas. Estoy comprometido con la calidad y la innovaci\xF3n en cada proyecto."
+
+/** Contenu de la colonne de droite. */
+export const railDroit = {
+  partage: {
+    titre: 'Partagez vos découvertes !',
+    texte: 'Déclinez une application, opinionnez-la, partagez vos découvertes.',
+  },
+  profilDeveloppe: {
+    titre: 'Profil développé pour vous',
+    application: { nom: 'OpenAI', handle: '@OpenAI' },
+  },
+  nouveautes: {
+    texte: 'Nouveautés : des applications, pour toute la technologie, plus vite et plus accessible.',
+  },
 };
-const earnings = {
-  title: "Ganancias mensuales",
-  values: [38, 62, 45, 78, 55, 92, 70],
-  labels: ["E", "F", "M", "A", "M", "J", "J"]
+
+/** Libellés de l'écran d'accueil mobile. */
+export const accueilMobile = {
+  titre: 'Les meilleures applications du moment',
+  action: 'Explorer →',
+  section: 'Publications récentes',
+  voirTout: 'Voir tout',
 };
-const offers = [
-  { title: "Plan Premium", subtitle: "15 d\xEDas gratis", tone: "from-amber-300 to-amber-500" },
-  { title: "Plan Business", subtitle: "Equipos ilimitados", tone: "from-blue-400 to-blue-600" }
-];
-const searchResults = [
-  { title: "Casa", meta: "Documento \xB7 Plan A" },
-  { title: "Subtareas", meta: "Documento \xB7 Plan A" },
-  { title: "ChatGPT", meta: "Nota \xB7 Plan A" }
-];
-const profileUser = {
-  name: "Ally Fadel",
-  handle: "@allyfadel",
-  initials: "AF",
-  tone: "from-amber-300 to-amber-500",
-  cover: "from-[#f0a868] via-[#a4648a] to-[#3b2a4d]",
-  bio: "Dise\xF1adora de producto. Me obsesiona la simplicidad, los sistemas de dise\xF1o y las interfaces que se sienten bien.",
-  interests: ["Dise\xF1o", "UI", "Fotograf\xEDa"],
-  stats: [
-    { label: "Siguiendo", value: "3" },
-    { label: "Seguidores", value: "12" },
-    { label: "Publicaciones", value: "150" }
-  ]
-};
-const profileGrid = [
-  { tone: "from-violet-500 to-blue-600" },
-  { tone: "from-orange-400 to-red-500" },
-  { tone: "from-neutral-800 to-neutral-950" },
-  { tone: "from-amber-300 to-amber-500" },
-  { tone: "from-blue-500 to-indigo-800" },
-  { tone: "from-rose-500 to-purple-800" },
-  { tone: "from-emerald-400 to-teal-700" },
-  { tone: "from-slate-500 to-slate-800" }
-];
-const mobileNav = [
-  { id: "inicio", label: "Home", icon: "home" },
-  { id: "tareas", label: "Tareas", icon: "check" },
-  { id: "explorar", label: "Explorar", icon: "compass" },
-  { id: "chat", label: "Chat", icon: "message" },
-  { id: "perfil", label: "Perfil", icon: "user" }
-];
-export {
-  brand,
-  categories,
-  communityUsers,
-  docRows,
-  docRowsSecondary,
-  docTabs,
-  earnings,
-  headerUser,
-  mobileNav,
-  offers,
-  profileGrid,
-  profileUser,
-  railProfile,
-  recommendations,
-  searchResults,
-  sidebarItems
-};
+
+/** Onglets de l'écran « Explorer » mobile. */
+export const ongletsExplorer = ['Catégories', 'Plateformes'];
