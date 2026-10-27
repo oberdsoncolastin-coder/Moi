@@ -201,7 +201,7 @@ export function MobileFeed() {
           <Avatar initials={post.author.initials} tone={post.author.tone} size={38} />
           <div>
             <p className="text-[13.5px] font-bold text-ink">{post.author.name}</p>
-            <p className="text-[11.5px] text-muted">{post.author.time}</p>
+            <p className="text-[11.5px] text-muted">{post.author.role} • {post.time}</p>
           </div>
         </div>
         <p className="mt-2 text-[13px] leading-[1.55] text-body">{post.text}</p>

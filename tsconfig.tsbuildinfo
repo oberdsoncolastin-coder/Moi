@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/store.tsx","./src/components/PostCard.tsx","./src/components/mobile.tsx","./src/components/shell.tsx","./src/components/ui.tsx","./src/data/mock.ts","./vite.config.ts"],"errors":true,"version":"5.9.3"}
+{"root":["./src/App.tsx","./src/main.tsx","./src/store.tsx","./src/components/PostCard.tsx","./src/components/mobile.tsx","./src/components/shell.tsx","./src/components/ui.tsx","./src/data/mock.ts","./vite.config.ts"],"version":"5.9.3"}
