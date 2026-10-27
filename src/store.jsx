@@ -1,54 +1,63 @@
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+
 const AppContext = createContext(null);
+
+/**
+ * État global léger de l'application (likes, favoris, notifications).
+ * @param {{ children: React.ReactNode }} props
+ */
 function AppProvider({ children }) {
-  const [liked, setLiked] = useState(/* @__PURE__ */ new Set());
-  const [saved, setSaved] = useState(/* @__PURE__ */ new Set());
-  const [following, setFollowing] = useState(/* @__PURE__ */ new Set(["LabGroup"]));
-  const [collections, setCollections] = useState([]);
+  const [liked, setLiked] = useState(() => new Set());
+  const [saved, setSaved] = useState(() => new Set());
+  const [following, setFollowing] = useState(() => new Set());
   const [toast, setToast] = useState(null);
+
   const notify = useCallback((message) => {
     setToast(message);
-    window.setTimeout(() => setToast((current) => current === message ? null : current), 2200);
+    window.setTimeout(() => setToast((current) => (current === message ? null : current)), 2200);
   }, []);
+
   const value = useMemo(
     () => ({
       liked,
       saved,
       following,
-      collections,
       toast,
-      toggleLike: (id) => setLiked((prev) => {
-        const next = new Set(prev);
-        next.has(id) ? next.delete(id) : next.add(id);
-        return next;
-      }),
-      toggleSave: (id) => setSaved((prev) => {
-        const next = new Set(prev);
-        next.has(id) ? next.delete(id) : next.add(id);
-        return next;
-      }),
-      toggleFollow: (name) => setFollowing((prev) => {
-        const next = new Set(prev);
-        next.has(name) ? next.delete(name) : next.add(name);
-        return next;
-      }),
-      createCollection: (name) => setCollections((prev) => [
-        { id: `c${prev.length + 1}`, name, items: 0, createdAt: Date.now() },
-        ...prev
-      ]),
+      toggleLike: (id) =>
+        setLiked((prev) => {
+          const next = new Set(prev);
+          next.has(id) ? next.delete(id) : next.add(id);
+          return next;
+        }),
+      toggleSave: (id) =>
+        setSaved((prev) => {
+          const next = new Set(prev);
+          next.has(id) ? next.delete(id) : next.add(id);
+          return next;
+        }),
+      toggleFollow: (nom) =>
+        setFollowing((prev) => {
+          const next = new Set(prev);
+          next.has(nom) ? next.delete(nom) : next.add(nom);
+          return next;
+        }),
       notify,
-      dismissToast: () => setToast(null)
+      dismissToast: () => setToast(null),
     }),
-    [liked, saved, following, collections, toast, notify]
+    [liked, saved, following, toast, notify]
   );
+
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
+
+/**
+ * Accès au contexte applicatif.
+ * @returns {import('./store.jsx').AppContextValue}
+ */
 function useApp() {
   const ctx = useContext(AppContext);
-  if (!ctx) throw new Error("useApp must be used inside AppProvider");
+  if (!ctx) throw new Error('useApp doit être utilisé dans AppProvider');
   return ctx;
 }
-export {
-  AppProvider,
-  useApp
-};
+
+export { AppProvider, useApp };

@@ -1,127 +1,229 @@
-import { useState } from "react";
-import {
-  Bell,
-  CheckSquare,
-  ChevronRight,
-  Compass,
-  Home,
-  MessageCircle,
-  Plus,
-  Search,
-  Send,
-  Share2,
-  User
-} from "lucide-react";
-import {
-  brand,
-  categories,
-  docRows,
-  docTabs,
-  mobileNav,
-  profileGrid,
-  profileUser
-} from "../data/mock";
-import { useApp } from "../store";
-import { Avatar, HexMark, Thumb, Verified } from "./ui";
-const navIcons = { home: Home, check: CheckSquare, compass: Compass, message: MessageCircle, user: User };
-function MobileNav({ active, onChange }) {
-  return <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-line bg-white py-2">{mobileNav.map((item) => {
-    const Icon = navIcons[item.icon];
-    const isActive = item.id === active;
-    return <button
-      key={item.id}
-      onClick={() => onChange(item.id)}
-      className={`flex flex-col items-center gap-1 ${isActive ? "text-ink" : "text-muted"}`}
-    ><span className={`relative grid h-7 w-7 place-items-center rounded-full ${isActive ? "bg-[#F3F4F6]" : ""}`}><Icon size={17} strokeWidth={isActive ? 2.3 : 1.8} />{item.id === "tareas" && <span className="absolute right-0 top-0 h-1.5 w-1.5 rounded-full bg-danger" />}</span><span className="text-[9.5px] font-semibold">{item.label}</span></button>;
-  })}</nav>;
+import React from 'react';
+import { Icon, Avatar, Bouton, Note, Etiquette } from './ui.jsx';
+import { accueilMobile, ongletsExplorer, categoriesMobile, publications, profil } from '../data/mock.jsx';
+
+/** Écran d'accueil mobile : en-tête, phrase d'accroche, catégorie, publication. */
+export function AccueilMobile({ onExplorer, onProfil }) {
+  const publication = publications[0];
+  return (
+    <div className="min-h-screen bg-[#0b0b0d] pb-24">
+      <header className="flex items-center justify-between px-4 pb-3 pt-3">
+        <span className="text-xs font-medium text-white/70">9:41</span>
+        <span className="font-display text-sm font-bold tracking-[0.2em] text-white">OBERLAST</span>
+        <button type="button" aria-label="Notifications" className="relative text-white/70">
+          <Icon name="bell" className="h-5 w-5" />
+          <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-red-500" />
+        </button>
+      </header>
+
+      <div className="px-4">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
+          Découvertes · Explorer · Partagez
+        </p>
+
+        <div className="mt-5 overflow-hidden rounded-2xl border border-white/8 bg-gradient-to-br from-[#1a1a20] to-[#0f0f13]">
+          <div className="px-4 py-5 text-center">
+            <p className="text-[15px] leading-relaxed text-white/80">
+              Le meilleur réseau social pour découvrir et partager les applications qui changent tout.
+            </p>
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gold font-display text-lg font-bold text-gold">
+                O
+              </span>
+              <span className="font-display text-sm font-bold tracking-[0.2em] text-white">OBERLAST</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" onClick={onExplorer} className="mt-4 flex w-full items-center justify-between rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-left">
+          <span className="text-sm text-white/80">Explorer</span>
+          <Icon name="arrowRight" className="h-4 w-4 text-gold" />
+        </button>
+
+        <div className="mt-5 flex items-center justify-between">
+          <h2 className="font-display text-sm font-semibold text-white">{accueilMobile.titre}</h2>
+          <button type="button" onClick={onExplorer} className="text-xs text-white/45">
+            {accueilMobile.action}
+          </button>
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {categoriesMobile.slice(0, 6).map((categorie) => (
+            <button
+              key={categorie.label}
+              type="button"
+              onClick={onExplorer}
+              className="flex flex-col items-center gap-1.5 rounded-2xl border border-white/8 bg-white/[0.03] py-3 transition active:bg-white/[0.07]"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-gold">
+                <Icon name={categorie.icon} className="h-[18px] w-[18px]" />
+              </span>
+              <span className="text-[11px] text-white/70">{categorie.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <h2 className="mt-6 font-display text-sm font-semibold text-white">{accueilMobile.section}</h2>
+
+        <article className="mt-3 rounded-2xl border border-white/8 bg-white/[0.03] p-4">
+          <header className="flex items-center gap-2.5">
+            <Avatar nom={publication.auteur} taille="h-9 w-9" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-medium text-white/90">{publication.auteur}</p>
+              <p className="truncate text-[11px] text-white/40">{publication.handle}</p>
+            </div>
+            <span className="text-[10px] text-white/35">{publication.anciennete}</span>
+          </header>
+
+          <p className="mt-3 text-[13px] leading-relaxed text-white/75">{publication.texte}</p>
+
+          <div className="mt-3 rounded-xl border border-white/8 bg-[#121217] p-3">
+            <div className="flex items-center gap-2.5">
+              <Avatar nom={publication.application.nom} taille="h-10 w-10" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-xs font-semibold text-white">{publication.application.nom}</p>
+                <p className="truncate text-[11px] text-white/40">{publication.application.handle}</p>
+              </div>
+              <Note valeur={publication.application.note} votes={publication.application.votes} />
+            </div>
+            <p className="mt-2.5 text-[11px] leading-relaxed text-white/45">{publication.application.resume}</p>
+            <div className="mt-3 flex gap-2">
+              <Bouton variante="sombre" className="px-2.5 py-1.5 text-[11px]">
+                Ouvrir sur le site officiel
+              </Bouton>
+              <Bouton variante="sombre" className="px-2.5 py-1.5 text-[11px]">
+                App Store
+              </Bouton>
+            </div>
+          </div>
+
+          <footer className="mt-3 flex items-center gap-4 text-[11px] text-white/40">
+            <span className="inline-flex items-center gap-1">
+              <Icon name="heart" className="h-3.5 w-3.5" />
+              {publication.likes}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Icon name="message" className="h-3.5 w-3.5" />
+              {publication.commentaires}
+            </span>
+            <button type="button" className="inline-flex items-center gap-1">
+              <Icon name="share" className="h-3.5 w-3.5" />
+              Partager
+            </button>
+          </footer>
+        </article>
+
+        <button type="button" onClick={onProfil} className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-3 text-left">
+          <Avatar nom={profil.nom} taille="h-10 w-10" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-medium text-white/85">{profil.nom}</p>
+            <p className="truncate text-[11px] text-white/40">{profil.handle}</p>
+          </div>
+          <Etiquette ton="or">Profil</Etiquette>
+        </button>
+      </div>
+    </div>
+  );
 }
-function SplashScreen({ onStart }) {
-  return <div className="flex min-h-screen flex-col items-center justify-center bg-night-950 px-8 text-center"><HexMark size={62} tone="amber" /><p className="mt-5 text-[30px] font-black tracking-[0.24em] text-amber">OBERLAST</p><p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-neutral-500">{brand.baseline}</p><p className="mt-6 max-w-[280px] text-[12.5px] leading-relaxed text-neutral-400">{brand.paragraph}</p><button
-    onClick={onStart}
-    className="mt-9 rounded-full bg-amber px-8 py-3 text-[13px] font-extrabold text-ink"
-  >
-        Empezar
-      </button><div className="absolute bottom-6 flex items-center gap-2 text-[10.5px] font-semibold text-neutral-600"><span>English ▾</span><span className="text-neutral-800">•</span><span>Português ▾</span></div></div>;
+
+/** Écran « Explorer » mobile : recherche, onglets, catégories. */
+export function ExplorerMobile({ onRetour }) {
+  const [onglet, setOnglet] = React.useState(ongletsExplorer[0]);
+  const [recherche, setRecherche] = React.useState('');
+  return (
+    <div className="min-h-screen bg-[#0b0b0d] pb-24">
+      <header className="flex items-center gap-3 px-4 pb-3 pt-3">
+        <span className="text-xs font-medium text-white/70">9:41</span>
+        <span className="font-display text-sm font-bold tracking-[0.2em] text-white">OBERLAST</span>
+        <button type="button" onClick={onRetour} aria-label="Fermer" className="ml-auto text-white/60">
+          <Icon name="close" className="h-5 w-5" />
+        </button>
+      </header>
+
+      <div className="px-4">
+        <div className="relative">
+          <Icon name="search" className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+          <input
+            type="search"
+            value={recherche}
+            onChange={(event) => setRecherche(event.target.value)}
+            placeholder="Recherchons une application..."
+            className="w-full rounded-xl border border-white/10 bg-white/[0.04] py-2.5 pl-9 pr-3 text-sm text-white placeholder:text-white/30 outline-none focus:border-gold/50"
+          />
+        </div>
+
+        <div className="mt-4 flex gap-1 border-b border-white/8">
+          {ongletsExplorer.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setOnglet(item)}
+              className={`relative px-3 pb-2.5 text-xs transition ${
+                onglet === item ? 'font-medium text-white' : 'text-white/40'
+              }`}
+            >
+              {item}
+              {onglet === item ? <span className="absolute inset-x-1 -bottom-px h-0.5 rounded-full bg-gold" /> : null}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {categoriesMobile.map((categorie) => (
+            <button
+              key={categorie.label}
+              type="button"
+              className="flex flex-col items-center gap-1.5 rounded-2xl border border-white/8 bg-white/[0.03] py-3 transition active:bg-white/[0.07]"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-gold">
+                <Icon name={categorie.icon} className="h-[18px] w-[18px]" />
+              </span>
+              <span className="text-center text-[11px] leading-tight text-white/70">{categorie.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
-function MobileHome() {
-  const { notify } = useApp();
-  const [tab, setTab] = useState(docTabs[0]);
-  return <div className="min-h-screen bg-[#F7F7F8] pb-16"><header className="flex items-center gap-2 border-b border-line bg-white px-4 py-3"><HexMark size={22} tone="light" /><span className="text-[15px] font-black tracking-[0.18em] text-ink">OBERLAST</span><span className="rounded bg-amber px-1.5 py-[1px] text-[9px] font-bold text-ink">PRO</span><div className="ml-auto flex items-center gap-3 text-ink"><Bell size={17} /><Search size={17} /></div></header><div className="px-3 pt-3"><section className="relative overflow-hidden rounded-[14px] bg-night-950 px-4 py-5"><div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber/25 blur-2xl" /><p className="text-[17px] font-black tracking-[0.2em] text-white">
-            OBERLAST<sup className="align-super text-[8px] text-amber">®</sup></p><p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-neutral-500">{brand.baseline}</p><p className="mt-3 text-[11.5px] leading-relaxed text-neutral-400">{brand.paragraph}</p><button
-    onClick={() => notify("Explorando el sistema")}
-    className="mt-4 rounded-full bg-amber px-4 py-2 text-[11.5px] font-extrabold text-ink"
-  >
-            Explorar el sistema
-          </button></section></div><section className="px-3 pt-4"><div className="flex items-center justify-between"><h2 className="text-[13px] font-bold text-ink">Categorías principales</h2><button className="text-[11px] font-semibold text-muted">Ver más</button></div><div className="mt-3 flex gap-3.5 overflow-x-auto no-scrollbar">{categories.map((category, index) => <button key={index} className="flex w-[52px] shrink-0 flex-col items-center gap-1.5"><span className={`grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br ${category.tone}`}><span className="text-[10px] font-black text-white/90">{category.label.slice(0, 1)}</span></span><span className="w-full truncate text-center text-[9px] font-semibold text-muted">{category.label}</span></button>)}</div></section><section className="mx-3 mt-4 overflow-hidden rounded-[14px] border border-line bg-white"><div className="flex items-center justify-between px-3.5 pt-3"><h3 className="text-[13px] font-bold text-ink">Mis documentos</h3><button className="text-[10.5px] font-semibold text-muted">Ver más</button></div><div className="mt-2 flex gap-4 border-b border-line px-3.5">{docTabs.map((item) => <button
-    key={item}
-    onClick={() => setTab(item)}
-    className={`relative pb-2 text-[11.5px] font-semibold ${tab === item ? "text-ink" : "text-muted"}`}
-  >{item}{tab === item && <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-ink" />}</button>)}</div>{docRows.slice(0, 4).map((row) => <div key={row.title + row.tone} className="flex items-center gap-2.5 border-b border-line px-3.5 py-2.5 last:border-b-0"><span className={`grid h-7 w-7 shrink-0 place-items-center rounded-[7px] bg-gradient-to-br ${row.tone}`}><span className="text-[9.5px] font-black text-white/90">{row.title.slice(0, 1)}</span></span><div className="min-w-0 flex-1"><p className="truncate text-[12px] font-bold text-ink">{row.title}</p><p className="truncate text-[9.5px] text-muted">{row.subtitle}</p></div><ChevronRight size={14} className="text-muted" /></div>)}</section></div>;
+
+/** Feuille de création de publication (mobile). */
+export function PublicationMobile({ onFermer }) {
+  const [texte, setTexte] = React.useState('');
+  return (
+    <div className="fixed inset-0 z-40 flex flex-col bg-[#0b0b0d]">
+      <header className="flex items-center justify-between px-4 pb-3 pt-3">
+        <span className="text-xs font-medium text-white/70">9:41</span>
+        <span className="font-display text-sm font-bold tracking-[0.2em] text-white">OBERLAST</span>
+        <button type="button" onClick={onFermer} aria-label="Fermer" className="text-white/60">
+          <Icon name="close" className="h-5 w-5" />
+        </button>
+      </header>
+
+      <div className="flex-1 px-4">
+        <h1 className="font-display text-lg font-semibold text-white">Créer une publication</h1>
+        <textarea
+          value={texte}
+          onChange={(event) => setTexte(event.target.value)}
+          rows={5}
+          placeholder="J'ai découvert une pépite..."
+          className="mt-4 w-full resize-none rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm text-white placeholder:text-white/30 outline-none focus:border-gold/50"
+        />
+        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.03] p-3">
+          <Avatar nom="CapCut" taille="h-10 w-10" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-semibold text-white">CapCut</p>
+            <p className="truncate text-[11px] text-white/40">@CapCut</p>
+          </div>
+          <Etiquette ton="or">4.7</Etiquette>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <Bouton className="w-full" onClick={onFermer}>
+          Publier
+        </Bouton>
+      </div>
+    </div>
+  );
 }
-function MobileExplore() {
-  const [query, setQuery] = useState("");
-  return <div className="min-h-screen bg-white pb-16"><header className="flex items-center justify-between px-4 pt-5"><h1 className="text-[22px] font-extrabold tracking-tight text-ink">Explorar</h1><Search size={19} className="text-ink" /></header><div className="px-4 pt-3"><div className="flex items-center gap-2 rounded-full border border-line bg-[#F7F7F8] px-3 py-2"><Search size={14} className="text-muted" /><input
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-    placeholder="Buscar"
-    className="w-full bg-transparent text-[12px] placeholder:text-muted focus:outline-none"
-  /></div></div><div className="px-4 pt-5"><p className="text-[12px] font-bold text-ink">Categorías</p><ul className="mt-3 divide-y divide-line">{categories.map((category, index) => <li key={index}><button className="flex w-full items-center gap-3 py-3 text-left"><span className={`grid h-9 w-9 shrink-0 place-items-center rounded-[9px] bg-gradient-to-br ${category.tone}`}><span className="text-[11px] font-black text-white/90">{category.label.slice(0, 1)}</span></span><span className="flex-1 text-[13px] font-semibold text-ink">{category.label}</span><ChevronRight size={16} className="text-muted" /></button></li>)}</ul></div></div>;
-}
-function MobileDetail() {
-  const { notify } = useApp();
-  const [tab, setTab] = useState(docTabs[0]);
-  return <div className="min-h-screen bg-white pb-16"><div className="relative h-[280px] bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-700 px-4 pt-4"><button onClick={() => notify("Volver")} className="rounded-full bg-black/30 px-3 py-1.5 text-[11px] font-semibold text-white">
-          Volver
-        </button><div className="mt-4 h-[150px] rounded-[14px] bg-white/15 p-3 backdrop-blur-sm"><div className="h-2 w-1/3 rounded-full bg-white/70" /><div className="mt-2 grid grid-cols-3 gap-2"><div className="h-20 rounded-[10px] bg-white/25" /><div className="h-20 rounded-[10px] bg-white/15" /><div className="h-20 rounded-[10px] bg-white/35" /></div><div className="mt-2 h-2 w-1/2 rounded-full bg-white/40" /></div><span className="absolute bottom-4 left-4 rounded-full bg-black/35 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
-          Community
-        </span></div><div className="-mt-6 rounded-t-[18px] bg-white px-4 pt-4"><h2 className="text-[19px] font-extrabold text-ink">Home</h2><p className="mt-1 text-[11.5px] text-muted">Community / Home</p><div className="mt-3 flex gap-4 border-b border-line">{docTabs.map((item) => <button
-    key={item}
-    onClick={() => setTab(item)}
-    className={`relative pb-2 text-[12px] font-semibold ${tab === item ? "text-ink" : "text-muted"}`}
-  >{item}{tab === item && <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-ink" />}</button>)}</div><p className="mt-3 text-[12.5px] leading-relaxed text-body">
-          Discover explore and share your knowledge on mobile. Organiza tus documentos, comparte
-          con tu equipo y descubre lo que otros están creando dentro de la comunidad.
-        </p><p className="mt-4 text-[12px] font-bold text-ink">Personas</p><div className="mt-2 flex gap-2">{["from-amber-300 to-amber-500", "from-teal-400 to-teal-600", "from-blue-400 to-blue-600"].map(
-    (tone, index) => <Avatar key={index} initials={["GU", "NA", "AP"][index]} tone={tone} size={30} />
-  )}</div><div className="mt-5 rounded-[14px] bg-night-950 px-4 py-4"><p className="text-[13px] font-bold text-amber">Únete a OBERLAST</p><p className="mt-1 text-[11.5px] leading-relaxed text-neutral-400">
-            15 días gratis y acceso completo a todas las herramientas.
-          </p><button
-    onClick={() => notify("Explorando m\xE1s")}
-    className="mt-3 w-full rounded-full bg-amber py-2.5 text-[12px] font-extrabold text-ink"
-  >
-            Explorar más
-          </button></div></div></div>;
-}
-function MobileProfile() {
-  const { notify } = useApp();
-  return <div className="min-h-screen bg-[#F7F7F8] pb-16"><div className={`relative h-[190px] bg-gradient-to-br ${profileUser.cover}`}><div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_15%,rgba(255,255,255,0.4),transparent_45%)]" /><div className="absolute right-3 top-3 flex gap-2"><button onClick={() => notify("Compartiendo perfil")} className="rounded-full bg-black/30 p-2 text-white"><Share2 size={14} /></button></div></div><div className="-mt-10 rounded-t-[18px] bg-white px-4 pt-3"><div className="flex items-end gap-3"><Avatar initials={profileUser.initials} tone={profileUser.tone} size={72} ring /><div className="flex-1 pb-1"><div className="flex items-center gap-1.5"><p className="text-[17px] font-extrabold text-ink">{profileUser.name}</p><Verified /></div><p className="text-[11.5px] text-muted">{profileUser.handle} · Siguiendo
-            </p></div></div><div className="mt-4 flex items-center gap-6">{profileUser.stats.map((stat) => <div key={stat.label}><p className="text-[15px] font-extrabold text-ink">{stat.value}</p><p className="text-[10.5px] text-muted">{stat.label}</p></div>)}</div><p className="mt-4 text-[11.5px] font-bold text-ink">Sobre mí</p><p className="mt-1 text-[12px] leading-relaxed text-body">{profileUser.bio}</p><p className="mt-4 text-[11.5px] font-bold text-ink">Intereses</p><div className="mt-2 flex flex-wrap gap-1.5">{profileUser.interests.map((interest) => <span key={interest} className="rounded-full bg-[#F3F4F6] px-2.5 py-1 text-[11px] font-semibold text-body">{interest}</span>)}</div><div className="mt-4 grid grid-cols-2 gap-2">{profileGrid.map((item, index) => <Thumb key={index} tone={item.tone} kind="gradient" className="h-[110px] w-full rounded-[10px]" />)}</div></div><div className="fixed inset-x-0 bottom-14 z-20 border-t border-line bg-white px-4 py-2.5"><div className="flex items-center gap-2"><button
-    onClick={() => notify("Mensaje enviado")}
-    className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-amber py-2.5 text-[12px] font-extrabold text-ink"
-  ><Send size={13} /> Enviar mensaje
-          </button><button
-    onClick={() => notify("Compartiendo perfil")}
-    className="grid h-9 w-9 place-items-center rounded-full border border-line text-ink"
-  ><Share2 size={15} /></button></div></div></div>;
-}
-function MobileApp() {
-  const [screen, setScreen] = useState(null);
-  const [nav, setNav] = useState("inicio");
-  if (screen === null) {
-    return <div className="md:hidden"><SplashScreen onStart={() => setScreen("home")} /></div>;
-  }
-  const handleNav = (id) => {
-    setNav(id);
-    if (id === "inicio") setScreen("home");
-    else if (id === "explorar") setScreen("explorar");
-    else if (id === "perfil") setScreen("perfil");
-    else setScreen("chat");
-  };
-  return <div className="md:hidden">{screen === "home" && <MobileHome />}{screen === "explorar" && <MobileExplore />}{screen === "detalle" && <MobileDetail />}{screen === "perfil" && <MobileProfile />}{screen === "chat" && <div className="min-h-screen bg-white px-4 pt-6"><h1 className="text-[22px] font-extrabold text-ink">Chat</h1><p className="mt-1 text-[12px] text-muted">Tus conversaciones con la comunidad.</p><div className="mt-5 space-y-2">{["Gustavo", "Naomi", "Apple", "Meta"].map((name, index) => <div key={name} className="flex items-center gap-3 rounded-[12px] border border-line p-3"><Avatar initials={name.slice(0, 2).toUpperCase()} tone={categories[index + 1].tone} size={34} /><p className="flex-1 text-[13px] font-bold text-ink">{name}</p><span className="text-[11px] text-muted">Ahora</span></div>)}</div></div>}<MobileNav active={nav} onChange={handleNav} /><button
-    onClick={() => setScreen("detalle")}
-    className="fixed right-4 bottom-20 z-20 grid h-11 w-11 place-items-center rounded-full bg-amber text-ink shadow-lg"
-  ><Plus size={20} /></button></div>;
-}
-export {
-  MobileApp
-};
