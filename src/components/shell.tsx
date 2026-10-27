@@ -254,7 +254,7 @@ export function RightRail() {
       </RailCard>
 
       <section className="border-b border-line px-4 py-4">
-        <div className="h-20 w-full overflow-hidden rounded-[12px] bg-gradient-to-br ${railProfile.cover}" />
+        <div className={`h-20 w-full overflow-hidden rounded-[12px] bg-gradient-to-br ${railProfile.cover}`} />
         <p className="mt-3 text-[13.5px] font-bold text-ink">{railProfile.name}</p>
         <p className="text-[11px] text-muted">{railProfile.role}</p>
         <p className="mt-2 text-[11.5px] leading-relaxed text-body">{railProfile.bio}</p>
