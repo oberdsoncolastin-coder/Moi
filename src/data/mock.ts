@@ -1,249 +1,219 @@
-export interface Author {
-  name: string
-  role: string
-  handle?: string
-  verified?: 'amber' | 'blue'
-  initials: string
-  tone: string
+export type Tone = string
+
+export interface NavItem {
+  label: string
+  icon: string
+  badge?: number
+  active?: boolean
 }
 
-export interface Media {
-  tone: string
-  kind?: 'gradient' | 'ui' | 'phone' | 'dark'
-  label?: string
+export interface CategoryChip {
+  label: string
+  tone: Tone
+  kind?: 'circle' | 'square'
 }
 
-export interface Product {
+export interface DocRow {
   title: string
   subtitle: string
-  body: string
-  tone: string
-  page?: string
-  media: Media[]
+  tone: Tone
+  tag?: string
+  action?: 'Abrir' | 'Plus' | 'Avatars'
+  avatars?: Tone[]
+  thumbs?: boolean
+  gradientCard?: boolean
 }
 
-export interface Post {
-  id: string
-  author: Author
-  time: string
-  text: string
-  likes: number
-  comments: number
-  media?: Media[]
-  extraMedia?: number
-  product?: Product
-}
-
-export interface Category {
-  id: string
-  label: string
-  count: string
-  tone: string
-}
-
-export interface Recommendation {
+export interface CommunityUser {
   name: string
   role: string
   initials: string
-  tone: string
+  tone: Tone
 }
 
-export const currentUser = {
-  name: 'Emma S.',
-  role: 'Diseñadora de producto',
-  initials: 'ES',
-  tone: 'from-amber-300 to-amber-500',
+export const brand = {
+  name: 'OBERLAST',
+  baseline: 'Discover · Explore · Manage',
+  paragraph:
+    'La plataforma social para tus empleados que interactúan en un solo lugar, con herramientas para crecer.',
 }
 
-export const categories: Category[] = [
-  { id: 'todas', label: 'Todas las colecciones', count: '2.4K', tone: 'from-teal-400 to-teal-600' },
-  { id: 'tecnologia', label: 'Tecnología', count: '1.2K', tone: 'from-teal-400 to-teal-600' },
-  { id: 'productividad', label: 'Productividad', count: '500', tone: 'from-amber-400 to-amber-600' },
-  { id: 'diseno', label: 'Diseño', count: '280', tone: 'from-rose-400 to-rose-600' },
-  { id: 'desarrollo', label: 'Desarrollo', count: '640', tone: 'from-blue-400 to-blue-600' },
-  { id: 'ia', label: 'IA', count: '150', tone: 'from-violet-400 to-violet-600' },
-  { id: 'negocios', label: 'Negocios', count: '310', tone: 'from-emerald-400 to-emerald-600' },
-  { id: 'finanzas', label: 'Finanzas', count: '220', tone: 'from-sky-400 to-sky-600' },
-  { id: 'trabajo', label: 'Trabajo', count: '190', tone: 'from-orange-400 to-orange-600' },
-  { id: 'estilo', label: 'Estilo de vida', count: '410', tone: 'from-fuchsia-400 to-fuchsia-600' },
+export const sidebarItems: NavItem[] = [
+  { label: 'Explorar', icon: 'compass' },
+  { label: 'Categorías', icon: 'grid' },
+  { label: 'Tareas', icon: 'check' },
+  { label: 'Traducciones', icon: 'languages' },
+  { label: 'Recordatorios', icon: 'clock' },
+  { label: 'Subtareas', icon: 'list' },
+  { label: 'Colaboradores', icon: 'users' },
+  { label: 'Notificaciones', icon: 'bell', badge: 3 },
+  { label: 'Mensajes', icon: 'message', badge: 1 },
+  { label: 'Plantillas', icon: 'template' },
+  { label: 'Ajustes', icon: 'settings' },
+  { label: 'Mis documentos', icon: 'folder', active: true },
+  { label: 'Premium', icon: 'crown' },
 ]
 
-export const chipLabels = [
-  'Todas las colecciones',
-  'Tecnología',
-  'Productividad',
-  'Diseño',
-  'Desarrollo',
-  'IA',
-  'Negocios',
-  'Finanzas',
-  'Trabajo',
-  'Estilo de vida',
+export const headerUser = { name: 'Juan Carlos', initials: 'JC', tone: 'from-amber-300 to-amber-500' }
+
+export const categories: CategoryChip[] = [
+  { label: 'Favorites', tone: 'from-amber-300 to-amber-500' },
+  { label: 'Tareas', tone: 'from-neutral-800 to-neutral-950' },
+  { label: 'Planeación', tone: 'from-blue-400 to-blue-600' },
+  { label: 'Recordatorios', tone: 'from-violet-400 to-violet-600' },
+  { label: 'Proyectos', tone: 'from-emerald-400 to-emerald-600' },
+  { label: 'Salarios', tone: 'from-rose-400 to-rose-600' },
+  { label: 'Notas', tone: 'from-orange-400 to-orange-600' },
+  { label: 'Metas', tone: 'from-teal-400 to-teal-600' },
+  { label: 'Negocios', tone: 'from-fuchsia-400 to-fuchsia-600' },
+  { label: 'Tareas', tone: 'from-slate-500 to-slate-700' },
 ]
 
-export const authors: Record<string, Author> = {
-  joaquin: {
-    name: 'Joaquín',
-    role: 'Desarrollador Frontend',
-    verified: 'blue',
-    initials: 'JQ',
-    tone: 'from-indigo-400 to-indigo-600',
-  },
-  labgroup: {
-    name: 'LabGroup',
-    role: 'Grupo de investigación',
-    verified: 'amber',
-    initials: 'LG',
-    tone: 'from-emerald-400 to-emerald-600',
-  },
-  shopbot: {
-    name: 'ShopBot',
-    role: 'Asistente de IA',
-    initials: 'SB',
-    tone: 'from-amber-400 to-amber-600',
-  },
-  vega: {
-    name: 'Vega',
-    role: 'Laboratorios',
-    initials: 'VG',
-    tone: 'from-emerald-400 to-emerald-600',
-  },
-  eris: {
-    name: 'Eris',
-    role: 'Escultor',
-    initials: 'ER',
-    tone: 'from-rose-400 to-rose-600',
-  },
-  zaize: {
-    name: 'Zaize',
-    role: 'Escultor',
-    initials: 'ZA',
-    tone: 'from-blue-400 to-blue-600',
-  },
-  jose: {
-    name: 'José Patch',
-    role: 'Desarrollador Frontend',
-    verified: 'amber',
-    initials: 'JP',
+export const docTabs = ['Documentos', 'Proyectos', 'Notas']
+
+export const docRows: DocRow[] = [
+  {
+    title: 'Casa',
+    subtitle: 'Discover explore and share your knowledge on mobile',
     tone: 'from-amber-300 to-amber-500',
+    action: 'Avatars',
+    avatars: ['from-amber-400 to-amber-600', 'from-blue-400 to-blue-600'],
   },
-  tu: {
-    name: 'Tú',
-    role: 'Perfil personal',
-    initials: 'TU',
-    tone: 'from-brand-400 to-brand-600',
+  {
+    title: 'Subtareas',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-neutral-800 to-neutral-950',
+    action: 'Avatars',
+    avatars: ['from-violet-400 to-violet-600', 'from-emerald-400 to-emerald-600', 'from-rose-400 to-rose-600'],
   },
+  {
+    title: 'Center',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-orange-400 to-orange-600',
+    action: 'Avatars',
+    avatars: ['from-blue-400 to-blue-600'],
+  },
+  {
+    title: 'Center',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-rose-400 to-rose-600',
+    tag: 'UTAH',
+    action: 'Avatars',
+    avatars: ['from-orange-400 to-orange-600'],
+  },
+  {
+    title: 'Classroom',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-orange-300 to-amber-500',
+    action: 'Avatars',
+    avatars: ['from-emerald-400 to-emerald-600'],
+  },
+  {
+    title: 'ChatGPT',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-neutral-800 to-neutral-950',
+    action: 'Avatars',
+    avatars: ['from-rose-400 to-rose-600'],
+  },
+  {
+    title: 'Creative Assets',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-neutral-800 to-neutral-950',
+    action: 'Avatars',
+    avatars: ['from-emerald-400 to-emerald-600'],
+  },
+]
+
+export const docRowsSecondary: DocRow[] = [
+  {
+    title: 'Cama',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-violet-500 to-blue-600',
+    action: 'Abrir',
+  },
+  {
+    title: 'Apple',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-orange-400 to-red-500',
+    action: 'Abrir',
+    thumbs: true,
+  },
+  {
+    title: 'Interior',
+    subtitle: 'Discover explore and share your knowledge on mobile',
+    tone: 'from-neutral-700 to-neutral-950',
+    action: 'Abrir',
+  },
+]
+
+export const communityUsers: CommunityUser[] = [
+  { name: 'Gustavo', role: 'Product Designer', initials: 'GU', tone: 'from-amber-300 to-amber-500' },
+  { name: 'Naomi', role: 'Frontend Dev', initials: 'NA', tone: 'from-teal-400 to-teal-600' },
+  { name: 'Apple', role: 'Illustrator', initials: 'AP', tone: 'from-blue-400 to-blue-600' },
+  { name: 'Meta', role: 'Community Lead', initials: 'ME', tone: 'from-emerald-400 to-emerald-600' },
+]
+
+export const recommendations: CommunityUser[] = [
+  { name: 'Gustavo', role: 'Product Designer', initials: 'GU', tone: 'from-amber-300 to-amber-500' },
+  { name: 'Apple', role: 'Illustrator', initials: 'AP', tone: 'from-blue-400 to-blue-600' },
+  { name: 'Naomi', role: 'Frontend Dev', initials: 'NA', tone: 'from-teal-400 to-teal-600' },
+]
+
+export const railProfile = {
+  name: 'Riley Fadel',
+  role: 'Desarrollador de Software',
+  cover: 'from-[#6b4a8a] via-[#8a5a5a] to-amber-500',
+  bio:
+    'Hola, soy Riley. Me especializo en crear soluciones de software para empresas. Estoy comprometido con la calidad y la innovación en cada proyecto.',
 }
 
-export const posts: Post[] = [
-  {
-    id: 'p1',
-    author: authors.joaquin,
-    time: 'hace 2 h',
-    text:
-      '👋 Equipo, ya está listo el nuevo sistema de diseño. Todos los tokens, componentes y documentación viven ahora en un solo lugar. ¿Qué opinan? @labgroup @shopbot 💡',
-    likes: 21,
-    comments: 24,
-    media: [
-      { tone: 'from-violet-500 via-fuchsia-500 to-amber-300', kind: 'gradient' },
-      { tone: 'from-slate-700 to-slate-900', kind: 'ui' },
-      { tone: 'from-indigo-600 to-blue-900', kind: 'ui' },
-      { tone: 'from-neutral-800 to-neutral-950', kind: 'dark' },
-    ],
-    extraMedia: 8,
-  },
-  {
-    id: 'p2',
-    author: authors.labgroup,
-    time: '3 d',
-    text:
-      '🔬 Investigamos cómo el usuario real se conecta con nuestras herramientas. Los hallazgos: menos fricción, más contexto y un onboarding que no asusta. 🧪',
-    likes: 48,
-    comments: 12,
-    media: [
-      { tone: 'from-teal-500 to-emerald-900', kind: 'gradient' },
-      { tone: 'from-neutral-900 to-black', kind: 'dark' },
-      { tone: 'from-amber-500 to-orange-700', kind: 'gradient' },
-      { tone: 'from-slate-800 to-slate-950', kind: 'ui' },
-      { tone: 'from-fuchsia-600 to-purple-950', kind: 'gradient' },
-    ],
-    extraMedia: 15,
-  },
-  {
-    id: 'p3',
-    author: authors.shopbot,
-    time: '5 h',
-    text:
-      '💡 5 formas de automatizar tu flujo creativo sin salir de tus herramientas favoritas. Guarda este post para consultarlo más tarde 👀',
-    likes: 33,
-    comments: 9,
-    media: [
-      { tone: 'from-amber-400 to-amber-700', kind: 'phone', label: 'ORBIT' },
-      { tone: 'from-slate-900 to-black', kind: 'dark' },
-      { tone: 'from-blue-600 to-indigo-900', kind: 'ui' },
-      { tone: 'from-rose-600 to-purple-900', kind: 'gradient' },
-    ],
-    extraMedia: 4,
-  },
-  {
-    id: 'p4',
-    author: authors.joaquin,
-    time: 'ayer',
-    text:
-      '🚀 Publicamos el caso de estudio completo: cómo reescribimos el checkout y multiplicamos la conversión.',
-    likes: 76,
-    comments: 31,
-    product: {
-      title: 'Casos',
-      subtitle: 'Pruebas de usabilidad',
-      body:
-        'Exploramos cómo el usuario real se conecta. Kaspar, nuestro equipo de diseño, quiere escuchar sus ideas sobre cómo mejorar la experiencia.',
-      tone: 'from-[#7C3AED] to-[#A855F7]',
-      page: '1 / 5',
-      media: [
-        { tone: 'from-violet-600 to-fuchsia-800', kind: 'gradient' },
-        { tone: 'from-neutral-900 to-black', kind: 'dark' },
-        { tone: 'from-slate-800 to-slate-950', kind: 'ui' },
-        { tone: 'from-amber-500 to-amber-800', kind: 'gradient' },
-      ],
-    },
-  },
-  {
-    id: 'p5',
-    author: authors.vega,
-    time: 'hace 6 h',
-    text:
-      'Estoy coleccionando referencias de tipografía experimental para el próximo drop. 🔥 ¿Qué serif geométrica están salvando?',
-    likes: 18,
-    comments: 7,
-    media: [
-      { tone: 'from-stone-600 to-stone-900', kind: 'gradient' },
-      { tone: 'from-neutral-800 to-black', kind: 'dark' },
-      { tone: 'from-emerald-700 to-teal-900', kind: 'gradient' },
-      { tone: 'from-blue-800 to-indigo-950', kind: 'ui' },
-    ],
-    extraMedia: 2,
-  },
+export const earnings = {
+  title: 'Ganancias mensuales',
+  values: [38, 62, 45, 78, 55, 92, 70],
+  labels: ['E', 'F', 'M', 'A', 'M', 'J', 'J'],
+}
+
+export const offers = [
+  { title: 'Plan Premium', subtitle: '15 días gratis', tone: 'from-amber-300 to-amber-500' },
+  { title: 'Plan Business', subtitle: 'Equipos ilimitados', tone: 'from-blue-400 to-blue-600' },
 ]
 
-export const exploreItems = [
-  { title: 'Diseño de producto', subtitle: '12.4K recursos', tone: 'from-amber-400 to-amber-600' },
-  { title: 'Frontend y UI', subtitle: '8.9K recursos', tone: 'from-teal-400 to-teal-600' },
-  { title: 'Inteligencia artificial', subtitle: '6.1K recursos', tone: 'from-violet-400 to-violet-600' },
-  { title: 'Emprendimiento', subtitle: '4.2K recursos', tone: 'from-rose-400 to-rose-600' },
-  { title: 'Fotografía y cine', subtitle: '3.7K recursos', tone: 'from-blue-400 to-blue-600' },
-  { title: 'Música y sonido', subtitle: '2.9K recursos', tone: 'from-emerald-400 to-emerald-600' },
+export const searchResults = [
+  { title: 'Casa', meta: 'Documento · Plan A' },
+  { title: 'Subtareas', meta: 'Documento · Plan A' },
+  { title: 'ChatGPT', meta: 'Nota · Plan A' },
 ]
 
-export const recommendations: Recommendation[] = [authors.vega, authors.eris, authors.tu]
+export const profileUser = {
+  name: 'Ally Fadel',
+  handle: '@allyfadel',
+  initials: 'AF',
+  tone: 'from-amber-300 to-amber-500',
+  cover: 'from-[#f0a868] via-[#a4648a] to-[#3b2a4d]',
+  bio: 'Diseñadora de producto. Me obsesiona la simplicidad, los sistemas de diseño y las interfaces que se sienten bien.',
+  interests: ['Diseño', 'UI', 'Fotografía'],
+  stats: [
+    { label: 'Siguiendo', value: '3' },
+    { label: 'Seguidores', value: '12' },
+    { label: 'Publicaciones', value: '150' },
+  ],
+}
 
-export const profilePosts = [
-  { tone: 'from-violet-500 via-fuchsia-500 to-amber-300', label: 'ORBIT' },
-  { tone: 'from-slate-700 to-slate-900' },
-  { tone: 'from-teal-500 to-emerald-900' },
-  { tone: 'from-neutral-900 to-black' },
-  { tone: 'from-amber-500 to-orange-700' },
-  { tone: 'from-blue-600 to-indigo-900' },
-  { tone: 'from-rose-600 to-purple-900' },
-  { tone: 'from-fuchsia-600 to-purple-950' },
+export const profileGrid = [
+  { tone: 'from-violet-500 to-blue-600' },
+  { tone: 'from-orange-400 to-red-500' },
+  { tone: 'from-neutral-800 to-neutral-950' },
+  { tone: 'from-amber-300 to-amber-500' },
+  { tone: 'from-blue-500 to-indigo-800' },
+  { tone: 'from-rose-500 to-purple-800' },
+  { tone: 'from-emerald-400 to-teal-700' },
+  { tone: 'from-slate-500 to-slate-800' },
+]
+
+export const mobileNav = [
+  { id: 'inicio', label: 'Home', icon: 'home' },
+  { id: 'tareas', label: 'Tareas', icon: 'check' },
+  { id: 'explorar', label: 'Explorar', icon: 'compass' },
+  { id: 'chat', label: 'Chat', icon: 'message' },
+  { id: 'perfil', label: 'Perfil', icon: 'user' },
 ]
