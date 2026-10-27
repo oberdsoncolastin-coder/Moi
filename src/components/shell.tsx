@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   Bell,
   ChevronDown,
@@ -97,8 +98,24 @@ const navItems = [
   { icon: SlidersHorizontal, label: 'Preferencias' },
 ]
 
+const navPaths = [
+  '/',
+  '/explorar',
+  '/mensajes',
+  '/recomendaciones',
+  '/intereses',
+  '/colecciones',
+  '/notificaciones',
+  '/mensajes',
+  '/mis-colecciones',
+  '/mis-seguimientos',
+  '/preferencias',
+]
+
 export function Sidebar() {
-  const [active, setActive] = useState(0)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [active, setActive] = useState(() => Math.max(0, navPaths.indexOf(location.pathname)))
   return (
     <aside className="sticky top-[62px] hidden h-[calc(100vh-62px)] w-[220px] shrink-0 flex-col bg-gradient-to-b from-night-950 to-night-850 md:flex">
       <div className="px-4 pb-3 pt-5">
@@ -122,7 +139,10 @@ export function Sidebar() {
           return (
             <button
               key={`${item.label}-${index}`}
-              onClick={() => setActive(index)}
+              onClick={() => {
+                setActive(index)
+                navigate(navPaths[index])
+              }}
               className={`mb-0.5 flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-[7px] text-[12.5px] font-medium transition-colors ${
                 isActive ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-neutral-200'
               }`}
