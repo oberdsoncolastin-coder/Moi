@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "vite build"
+    "typecheck": "tsc -p tsconfig.ci.json"
   },
   "dependencies": {
     "react": "^18.3.1",
