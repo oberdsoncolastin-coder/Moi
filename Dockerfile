@@ -4,9 +4,11 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-FROM python:3-alpine
+
+FROM node:20-alpine
 WORKDIR /app
-COPY --from=build /app/dist ./
+COPY --from=build /app/dist ./dist
+COPY server.cjs ./server.cjs
 ENV PORT=3000
 EXPOSE 3000
-CMD python3 -m http.server "$PORT" --bind 0.0.0.0
+CMD ["node", "server.cjs"]
