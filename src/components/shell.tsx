@@ -14,7 +14,7 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
-import { Avatar, Logo, Pill, Thumb, Verified } from './ui'
+import { Avatar, Logo, Pill, Verified } from './ui'
 import { categories, currentUser, recommendations } from '../data/mock'
 import { useApp } from '../store'
 
@@ -176,7 +176,7 @@ function RailCard({
 }
 
 export function RightRail() {
-  const { following, toggleFollow, createCollection, notify } = useApp()
+  const { createCollection, notify } = useApp()
   const [name, setName] = useState('')
   const [expanded, setExpanded] = useState(false)
 
@@ -339,6 +339,3 @@ export function RightRail() {
     </aside>
   )
 }
-
-export { followingUnused }
-const followingUnused = null
