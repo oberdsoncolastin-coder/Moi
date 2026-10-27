@@ -79,9 +79,9 @@ export function Logo({ compact = false }) {
 }
 
 /**
- * @param {{ children: React.ReactNode, variante?: 'primaire' | 'fantome' | 'sombre', className?: string }} props
+ * @param {{ children?: React.ReactNode, variante?: 'primaire' | 'fantome' | 'sombre', className?: string, onClick?: () => void, type?: 'button' | 'submit' }} props
  */
-export function Bouton({ children, variante = 'primaire', className = '', ...props }) {
+export function Bouton({ children, variante = 'primaire', className = '', type = 'button', onClick, ...props }) {
   const base =
     'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60';
   const variantes = {
@@ -90,7 +90,7 @@ export function Bouton({ children, variante = 'primaire', className = '', ...pro
     sombre: 'bg-white/5 text-white/75 hover:bg-white/10',
   };
   return (
-    <button className={`${base} ${variantes[variante]} ${className}`} {...props}>
+    <button type={type} onClick={onClick} className={`${base} ${variantes[variante]} ${className}`} {...props}>
       {children}
     </button>
   );

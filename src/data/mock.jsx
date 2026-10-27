@@ -58,7 +58,7 @@ export const compte = [
 export const profil = {
   nom: 'AlexTech',
   handle: '@AlexTech',
-  bio: "Passionné par les dernières technologies et les applications [#].",
+  bio: 'Passionné de technologie, je partage les applications qui valent le détour.',
   publications: 128,
   abonnes: '2.4k',
   abonnements: 124,

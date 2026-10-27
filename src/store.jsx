@@ -1,5 +1,18 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
+/**
+ * @typedef {Object} AppContextValue
+ * @property {Set<string>} liked
+ * @property {Set<string>} saved
+ * @property {Set<string>} following
+ * @property {string | null} toast
+ * @property {(id: string) => void} toggleLike
+ * @property {(id: string) => void} toggleSave
+ * @property {(nom: string) => void} toggleFollow
+ * @property {(message: string) => void} notify
+ * @property {() => void} dismissToast
+ */
+
 const AppContext = createContext(null);
 
 /**
@@ -52,7 +65,7 @@ function AppProvider({ children }) {
 
 /**
  * Accès au contexte applicatif.
- * @returns {import('./store.jsx').AppContextValue}
+ * @returns {AppContextValue}
  */
 function useApp() {
   const ctx = useContext(AppContext);
