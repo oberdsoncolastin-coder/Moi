@@ -1,6 +1,28 @@
 import type { ReactNode } from 'react'
 import { Check } from 'lucide-react'
 
+export function HexMark({
+  size = 32,
+  tone = 'amber',
+}: {
+  size?: number
+  tone?: 'amber' | 'dark' | 'light'
+}) {
+  const bg = tone === 'light' ? '#FFFFFF' : tone === 'amber' ? '#E3B341' : '#0B0B0B'
+  const fg = tone === 'light' ? '#E3B341' : '#0B0B0B'
+  return (
+    <span
+      className="grid shrink-0 place-items-center"
+      style={{ width: size, height: size }}
+    >
+      <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden>
+        <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill={bg} />
+        <circle cx="50" cy="50" r="17" fill="none" stroke={fg} strokeWidth="9" />
+      </svg>
+    </span>
+  )
+}
+
 export function Logo({
   tone = 'light',
   size = 'md',
@@ -12,22 +34,15 @@ export function Logo({
 }) {
   const text = tone === 'dark' ? 'text-white' : 'text-ink'
   const sizes = {
-    sm: { o: 'h-6 w-6 text-[13px]', word: 'text-[15px]' },
-    md: { o: 'h-8 w-8 text-[17px]', word: 'text-[21px]' },
-    lg: { o: 'h-10 w-10 text-[21px]', word: 'text-[27px]' },
+    sm: { mark: 22, word: 'text-[14px]' },
+    md: { mark: 28, word: 'text-[19px]' },
+    lg: { mark: 40, word: 'text-[26px]' },
   }[size]
 
   return (
     <div className="flex items-center gap-2.5">
-      {mark && (
-        <span
-          className={`${sizes.o} grid place-items-center rounded-full border-[3px] border-amber font-black text-amber`}
-          style={{ borderRightColor: 'transparent' }}
-        >
-          O
-        </span>
-      )}
-      <span className={`${sizes.word} ${text} font-extrabold tracking-[0.14em]`}>OBERLAST</span>
+      {mark && <HexMark size={sizes.mark} tone={tone === 'dark' ? 'amber' : 'light'} />}
+      <span className={`${sizes.word} ${text} font-black tracking-[0.18em]`}>OBERLAST</span>
     </div>
   )
 }
@@ -37,18 +52,20 @@ export function Avatar({
   tone,
   size = 36,
   rounded = 'full',
+  ring = false,
 }: {
   initials: string
   tone: string
   size?: number
   rounded?: 'full' | 'lg'
+  ring?: boolean
 }) {
   return (
     <span
       className={`grid shrink-0 place-items-center bg-gradient-to-br ${tone} font-bold text-white ${
         rounded === 'full' ? 'rounded-full' : 'rounded-lg'
-      }`}
-      style={{ width: size, height: size, fontSize: Math.max(10, size * 0.36) }}
+      } ${ring ? 'ring-2 ring-amber' : ''}`}
+      style={{ width: size, height: size, fontSize: Math.max(9, size * 0.36) }}
     >
       {initials}
     </span>
