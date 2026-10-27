@@ -24,7 +24,11 @@ export default function App() {
 
   const naviguer = (cible) => {
     setVue(cible);
-    setMobile(cible === 'explorer' ? 'explorer' : 'accueil');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const naviguerMobile = (cible) => {
+    setMobile(cible);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -62,17 +66,20 @@ export default function App() {
             </div>
           </main>
         </div>
-        <RailDroit />
+        <RailDroit onPublier={() => setPublier(true)} />
       </div>
 
       {/* Mobile */}
       <div className="lg:hidden">
         {mobile === 'explorer' ? (
           <ExplorerMobile onRetour={() => setMobile('accueil')} />
-        ) : (
-          <AccueilMobile onExplorer={() => setMobile('explorer')} onProfil={() => setVue('profil')} />
-        )}
-        <NavigationMobile vue={mobile} onNaviguer={naviguer} />
+        ) : null}
+        {mobile === 'accueil' ? (
+          <AccueilMobile onExplorer={() => setMobile('explorer')} onProfil={() => setMobile('profil')} />
+        ) : null}
+        {mobile === 'favoris' ? <div className="px-4 pt-4"><VueFavoris /></div> : null}
+        {mobile === 'profil' ? <div className="px-4 pt-4"><VueProfil /></div> : null}
+        <NavigationMobile vue={mobile} onNaviguer={naviguerMobile} />
       </div>
 
       {publier ? <PublicationMobile onFermer={() => setPublier(false)} /> : null}

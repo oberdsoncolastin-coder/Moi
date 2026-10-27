@@ -94,14 +94,17 @@ export function BarreSuperieure() {
   );
 }
 
-/** Colonne de droite : partage, profil développé, nouveautés, applications populaires. */
-export function RailDroit() {
+/**
+ * Colonne de droite : partage, profil développé, nouveautés, applications populaires.
+ * @param {{ onPublier?: () => void }} props
+ */
+export function RailDroit({ onPublier }) {
   return (
     <aside className="hidden w-[300px] shrink-0 flex-col gap-4 border-l border-white/5 bg-[#0e0e11] p-5 xl:flex">
       <div className="rounded-2xl border border-white/8 bg-gradient-to-b from-[#1a1a20] to-[#101014] p-4">
         <h3 className="font-display text-sm font-semibold text-white">{railDroit.partage.titre}</h3>
         <p className="mt-2 text-xs leading-relaxed text-white/50">{railDroit.partage.texte}</p>
-        <Bouton className="mt-4 w-full" variante="primaire">
+        <Bouton className="mt-4 w-full" variante="primaire" onClick={onPublier}>
           Créer une publication
         </Bouton>
       </div>
